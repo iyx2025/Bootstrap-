@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 神影视频</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dist/css/shared-styles.css">
+    <style>
+        /* 登录页面特定样式 */
+        .login-container {
+            margin-top: 100px;
+            margin-bottom: 50px;
+        }
+        
+        .login-card {
+            background-color: var(--bg-card);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            background-color: var(--bg-primary);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .form-label {
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .form-control:focus {
+            background-color: var(--bg-primary);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.2rem rgba(255, 71, 87, 0.25);
+        }
+        
+        .form-text {
+            color: var(--text-secondary);
+        }
+        
+        .invalid-feedback {
+            color: var(--danger-color);
+        }
+        
+        .valid-feedback {
+            color: var(--success-color);
+        }
+        
+        /* 加载动画 */
+        .btn-loading {
+            position: relative;
+            color: transparent;
+        }
+        
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            margin-left: -10px;
+            margin-top: -10px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 消息提示样式 */
+        .alert {
+            margin-top: 15px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 登录类型切换 */
+        .login-type-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .login-type-tab {
+            flex: 1;
+            padding: 0.75rem 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+        }
+        
+        .login-type-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .login-type-tab:hover {
+            color: var(--text-primary);
+        }
+        
+        /* 登录表单容器 */
+        .login-form-container {
+            display: none;
+        }
+        
+        .login-form-container.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid section-container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fa fa-film"></i> 神影视频
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#movies">电影</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#tvshows">电视剧</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#variety">综艺</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#animation">动漫</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="搜索电影、电视剧" aria-label="Search">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> 搜索
+                    </button>
+                </form>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user-circle"></i> 我的账户
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="register.html">注册</a></li>
+                            <li><a class="dropdown-item" href="login.html">登录</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">我的收藏</a></li>
+                            <li><a class="dropdown-item" href="#">观看历史</a></li>
+                            <li><a class="dropdown-item" href="admin-index.html">管理员后台</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 登录表单 -->
+    <section class="login-container">
+        <div class="section-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="card login-card text-white">
+                        <div class="card-header bg-primary text-center">
+                            <h2><i class="fa fa-sign-in"></i> 用户登录</h2>
+                        </div>
+                        <div class="card-body p-5">
+                            <!-- 登录类型切换 -->
+                            <div class="login-type-tabs">
+                                <div class="login-type-tab active" data-login-type="user">
+                                    <i class="fa fa-user"></i> 用户登录
+                                </div>
+                                <div class="login-type-tab" data-login-type="admin">
+                                    <i class="fa fa-cog"></i> 管理员登录
+                                </div>
+                            </div>
+                            
+                            <!-- 用户登录表单 -->
+                            <div id="userLoginForm" class="login-form-container active">
+                                <form id="userLogin" class="needs-validation" novalidate>
+                                    <!-- 社交登录按钮 -->
+                                    <div class="social-login mb-4">
+                                        <button type="button" class="btn social-btn">
+                                            <i class="fa fa-weixin"></i> 微信登录
+                                        </button>
+                                        <button type="button" class="btn social-btn">
+                                            <i class="fa fa-qq"></i> QQ登录
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="text-center my-4">
+                                        <span class="text-secondary">或使用账号密码登录</span>
+                                    </div>
+                                    
+                                    <!-- 用户名或邮箱 -->
+                                    <div class="mb-3">
+                                        <label for="userUsername" class="form-label">用户名或邮箱</label>
+                                        <input type="text" class="form-control" id="userUsername" name="username" placeholder="请输入用户名或邮箱" required>
+                                        <div class="invalid-feedback">
+                                            请输入用户名或邮箱
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 密码 -->
+                                    <div class="mb-3">
+                                        <label for="userPassword" class="form-label">密码</label>
+                                        <input type="password" class="form-control" id="userPassword" name="password" placeholder="请输入密码" required minlength="6">
+                                        <div class="invalid-feedback">
+                                            密码长度不能少于6个字符
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 记住我和忘记密码 -->
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="userRemember" name="remember">
+                                            <label class="form-check-label" for="userRemember">记住我</label>
+                                        </div>
+                                        <a href="#" class="text-primary">忘记密码？</a>
+                                    </div>
+                                    
+                                    <!-- 登录按钮 -->
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fa fa-sign-in"></i> 登录
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- 注册链接 -->
+                                    <div class="text-center mt-4">
+                                        <span class="text-secondary">没有账号？</span>
+                                        <a href="register.html" class="text-primary ms-1">立即注册</a>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- 管理员登录表单 -->
+                            <div id="adminLoginForm" class="login-form-container">
+                                <form id="adminLogin" class="needs-validation" novalidate>
+                                    <div class="text-center my-4">
+                                        <span class="text-secondary">管理员账号登录</span>
+                                    </div>
+                                    
+                                    <!-- 管理员用户名 -->
+                                    <div class="mb-3">
+                                        <label for="adminUsername" class="form-label">管理员用户名</label>
+                                        <input type="text" class="form-control" id="adminUsername" name="username" placeholder="请输入管理员用户名" required>
+                                        <div class="invalid-feedback">
+                                            请输入管理员用户名
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 管理员密码 -->
+                                    <div class="mb-3">
+                                        <label for="adminPassword" class="form-label">管理员密码</label>
+                                        <input type="password" class="form-control" id="adminPassword" name="password" placeholder="请输入管理员密码" required minlength="6">
+                                        <div class="invalid-feedback">
+                                            密码长度不能少于6个字符
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 记住我 -->
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" id="adminRemember" name="remember">
+                                        <label class="form-check-label" for="adminRemember">记住我</label>
+                                    </div>
+                                    
+                                    <!-- 登录按钮 -->
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fa fa-cog"></i> 管理员登录
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4">
+        <div class="section-container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3><i class="fa fa-film"></i> 神影视频</h3>
+                    <p>提供最新、最热门的电影、电视剧、综艺、动漫在线观看服务。</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>快速链接</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">关于我们</a></li>
+                        <li><a href="#" class="text-secondary">联系我们</a></li>
+                        <li><a href="#" class="text-secondary">帮助中心</a></li>
+                        <li><a href="#" class="text-secondary">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#" class="btn btn-outline-secondary me-2"><i class="fa fa-weixin"></i></a>
+                        <a href="#" class="btn btn-outline-secondary me-2"><i class="fa fa-weibo"></i></a>
+                        <a href="#" class="btn btn-outline-secondary"><i class="fa fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top mt-4 pt-3 text-center text-secondary">
+                <p>&copy; 2024 神影视频. 作者: 叶炫</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dist/jquery-3.6.0.min.js"></script>
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 登录类型切换
+        document.querySelectorAll('.login-type-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // 移除所有活动状态
+                document.querySelectorAll('.login-type-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.login-form-container').forEach(f => f.classList.remove('active'));
+                
+                // 添加当前活动状态
+                this.classList.add('active');
+                const loginType = this.getAttribute('data-login-type');
+                document.getElementById(loginType + 'LoginForm').classList.add('active');
+            });
+        });
+        
+        // 表单验证
+        (function () {
+            'use strict';
+            
+            // 获取所有需要验证的表单
+            var forms = document.querySelectorAll('.needs-validation');
+            
+            // 循环处理表单
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        } else {
+                            // 表单验证通过，执行登录逻辑
+                            event.preventDefault();
+                            
+                            // 获取登录类型
+                            var isUserLogin = form.id === 'userLogin';
+                            
+                            // 显示加载状态
+                            var submitBtn = form.querySelector('button[type="submit"]');
+                            var originalText = submitBtn.innerHTML;
+                            submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> 登录中...';
+                            submitBtn.disabled = true;
+                            submitBtn.classList.add('btn-loading');
+                            
+                            // 模拟登录请求
+                            setTimeout(function() {
+                                // 重置按钮状态
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.disabled = false;
+                                submitBtn.classList.remove('btn-loading');
+                                
+                                // 模拟登录成功
+                                if (isUserLogin) {
+                                    // 用户登录成功，跳转到首页
+                                    alert('用户登录成功！');
+                                    window.location.href = 'index.html';
+                                } else {
+                                    // 管理员登录成功，跳转到后台
+                                    alert('管理员登录成功！');
+                                    window.location.href = 'admin-index.html';
+                                }
+                            }, 1500);
+                        }
+                        
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+    </script>
+</body>
+</html>

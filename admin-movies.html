@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电影管理 - 神影视频</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dist/css/shared-styles.css">
+</head>
+<body>
+    <!-- 管理员后台布局 -->
+    <div class="d-flex">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-index.html" class="sidebar-brand">
+                    <i class="fa fa-film"></i> 神影视频
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">核心功能</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-index.html">
+                            <i class="fa fa-dashboard"></i> 仪表盘
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin-movies.html">
+                            <i class="fa fa-video-camera"></i> 电影管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-users"></i> 用户管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-comments"></i> 评论管理
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-section">系统管理</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-bar-chart"></i> 数据统计
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-cog"></i> 系统设置
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部导航栏 -->
+            <header class="top-navbar">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button class="mobile-nav-toggle" id="sidebarToggle">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <h2 class="navbar-title"><i class="fa fa-video-camera"></i> 电影管理</h2>
+                    </div>
+                    <div class="navbar-right">
+                        <div class="search-box">
+                            <i class="fa fa-search"></i>
+                            <input type="text" class="search-input" placeholder="搜索...">
+                        </div>
+                        <div class="notification-icon">
+                            <i class="fa fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                        <a href="index.html" class="btn btn-outline-secondary" title="返回网站首页">
+                            <i class="fa fa-home me-1"></i> 首页
+                        </a>
+                        <div class="admin-profile">
+                            <div class="admin-avatar">A</div>
+                            <div class="admin-info">
+                                <div class="admin-name">管理员</div>
+                                <div class="admin-role">超级管理员</div>
+                            </div>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- 页面内容 -->
+            <div class="content">
+                <!-- 页面头部 -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">电影列表</h1>
+                        <p class="page-subtitle">管理平台上的所有电影资源</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal">
+                        <i class="fa fa-plus"></i> 添加电影
+                    </button>
+                </div>
+                
+                <!-- 搜索和筛选 -->
+                <div class="filter-section">
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="movieSearch">搜索电影名称</label>
+                            <input type="text" class="form-control" id="movieSearch" placeholder="搜索电影名称">
+                        </div>
+                        <div class="filter-group">
+                            <label for="movieType">电影类型</label>
+                            <select class="form-select" id="movieType">
+                                <option selected>全部类型</option>
+                                <option value="1">科幻</option>
+                                <option value="2">动作</option>
+                                <option value="3">喜剧</option>
+                                <option value="4">爱情</option>
+                                <option value="5">悬疑</option>
+                                <option value="6">恐怖</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="movieStatus">发布状态</label>
+                            <select class="form-select" id="movieStatus">
+                                <option selected>全部状态</option>
+                                <option value="1">已发布</option>
+                                <option value="2">未发布</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary">重置筛选</button>
+                        <button class="btn btn-primary">
+                            <i class="fa fa-search"></i> 搜索
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 电影列表 -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            <input class="form-check-input" type="checkbox" id="selectAll">
+                                        </th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">电影海报</th>
+                                        <th scope="col">电影名称</th>
+                                        <th scope="col">类型</th>
+                                        <th scope="col">导演</th>
+                                        <th scope="col">主演</th>
+                                        <th scope="col">上映时间</th>
+                                        <th scope="col">片长</th>
+                                        <th scope="col">评分</th>
+                                        <th scope="col">状态</th>
+                                        <th scope="col">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input class="form-check-input" type="checkbox">
+                                        </td>
+                                        <th scope="row">1</th>
+                                        <td><img src="image/流浪地球2.jpg" alt="流浪地球2" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">流浪地球2</div>
+                                            <div class="movie-year">2023</div>
+                                        </td>
+                                        <td>科幻</td>
+                                        <td>郭帆</td>
+                                        <td>吴京、刘德华</td>
+                                        <td>2023-01-22</td>
+                                        <td>173分钟</td>
+                                        <td>9.2</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <button class="btn-action me-1" data-bs-toggle="modal" data-bs-target="#editMovieModal" title="编辑"><i class="fa fa-edit"></i></button>
+                                            <button class="btn-action" data-bs-toggle="modal" data-bs-target="#deleteMovieModal" title="删除"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input class="form-check-input" type="checkbox">
+                                        </td>
+                                        <th scope="row">2</th>
+                                        <td><img src="image/奥本海默.jpg" alt="奥本海默" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">奥本海默</div>
+                                            <div class="movie-year">2023</div>
+                                        </td>
+                                        <td>传记</td>
+                                        <td>克里斯托弗·诺兰</td>
+                                        <td>基里安·墨菲</td>
+                                        <td>2023-07-21</td>
+                                        <td>180分钟</td>
+                                        <td>8.8</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <button class="btn-action me-1" data-bs-toggle="modal" data-bs-target="#editMovieModal" title="编辑"><i class="fa fa-edit"></i></button>
+                                            <button class="btn-action" data-bs-toggle="modal" data-bs-target="#deleteMovieModal" title="删除"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input class="form-check-input" type="checkbox">
+                                        </td>
+                                        <th scope="row">3</th>
+                                        <td><img src="image/复联.jpg" alt="复仇者联盟" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">复仇者联盟</div>
+                                            <div class="movie-year">2019</div>
+                                        </td>
+                                        <td>动作</td>
+                                        <td>安东尼·罗素</td>
+                                        <td>小罗伯特·唐尼</td>
+                                        <td>2019-04-24</td>
+                                        <td>181分钟</td>
+                                        <td>9.5</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <button class="btn-action me-1" data-bs-toggle="modal" data-bs-target="#editMovieModal" title="编辑"><i class="fa fa-edit"></i></button>
+                                            <button class="btn-action" data-bs-toggle="modal" data-bs-target="#deleteMovieModal" title="删除"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input class="form-check-input" type="checkbox">
+                                        </td>
+                                        <th scope="row">4</th>
+                                        <td><img src="image/哪吒.jpg" alt="哪吒之魔童降世" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">哪吒之魔童降世</div>
+                                            <div class="movie-year">2019</div>
+                                        </td>
+                                        <td>动画</td>
+                                        <td>饺子</td>
+                                        <td>吕艳婷、囧森瑟夫</td>
+                                        <td>2019-07-26</td>
+                                        <td>110分钟</td>
+                                        <td>9.0</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <button class="btn-action me-1" data-bs-toggle="modal" data-bs-target="#editMovieModal" title="编辑"><i class="fa fa-edit"></i></button>
+                                            <button class="btn-action" data-bs-toggle="modal" data-bs-target="#deleteMovieModal" title="删除"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 分页 -->
+                        <div class="pagination-container">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                                    </li>
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">下一页</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 添加电影模态框 -->
+    <div class="modal fade" id="addMovieModal" tabindex="-1" aria-labelledby="addMovieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: var(--bg-card); border-color: var(--border-color); color: var(--text-primary);">
+                <div class="modal-header" style="background-color: rgba(255, 71, 87, 0.1); border-color: var(--border-color);">
+                    <h5 class="modal-title" id="addMovieModalLabel">添加电影</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row g-3">
+                            <!-- 电影基本信息 -->
+                            <div class="col-md-6">
+                                <label for="movieTitle" class="form-label">电影名称</label>
+                                <input type="text" class="form-control" id="movieTitle" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="movieType" class="form-label">电影类型</label>
+                                <select class="form-select" id="movieType" required>
+                                    <option selected>请选择类型</option>
+                                    <option value="科幻">科幻</option>
+                                    <option value="动作">动作</option>
+                                    <option value="喜剧">喜剧</option>
+                                    <option value="爱情">爱情</option>
+                                    <option value="悬疑">悬疑</option>
+                                    <option value="恐怖">恐怖</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="movieStatus" class="form-label">发布状态</label>
+                                <select class="form-select" id="movieStatus" required>
+                                    <option value="已发布">已发布</option>
+                                    <option value="未发布">未发布</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="movieDirector" class="form-label">导演</label>
+                                <input type="text" class="form-control" id="movieDirector" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="movieActors" class="form-label">主演</label>
+                                <input type="text" class="form-control" id="movieActors" placeholder="多个主演用逗号分隔" required>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label for="movieReleaseDate" class="form-label">上映时间</label>
+                                <input type="date" class="form-control" id="movieReleaseDate" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="movieDuration" class="form-label">片长(分钟)</label>
+                                <input type="number" class="form-control" id="movieDuration" min="1" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="movieRating" class="form-label">评分</label>
+                                <input type="number" class="form-control" id="movieRating" step="0.1" min="0" max="10" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="movieLanguage" class="form-label">语言</label>
+                                <select class="form-select" id="movieLanguage" required>
+                                    <option value="中文">中文</option>
+                                    <option value="英文">英文</option>
+                                    <option value="日文">日文</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </div>
+                            
+                            <!-- 电影海报上传 -->
+                            <div class="col-12">
+                                <label for="moviePoster" class="form-label">电影海报</label>
+                                <input class="form-control" type="file" id="moviePoster" accept="image/*" required>
+                            </div>
+                            
+                            <!-- 电影简介 -->
+                            <div class="col-12">
+                                <label for="movieDescription" class="form-label">电影简介</label>
+                                <textarea class="form-control" id="movieDescription" rows="4" required></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="border-color: var(--border-color);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 编辑电影模态框 -->
+    <div class="modal fade" id="editMovieModal" tabindex="-1" aria-labelledby="editMovieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: var(--bg-card); border-color: var(--border-color); color: var(--text-primary);">
+                <div class="modal-header" style="background-color: rgba(255, 71, 87, 0.1); border-color: var(--border-color);">
+                    <h5 class="modal-title" id="editMovieModalLabel">编辑电影</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row g-3">
+                            <!-- 电影基本信息 -->
+                            <div class="col-md-6">
+                                <label for="editMovieTitle" class="form-label">电影名称</label>
+                                <input type="text" class="form-control" id="editMovieTitle" value="流浪地球2" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="editMovieType" class="form-label">电影类型</label>
+                                <select class="form-select" id="editMovieType" required>
+                                    <option value="科幻" selected>科幻</option>
+                                    <option value="动作">动作</option>
+                                    <option value="喜剧">喜剧</option>
+                                    <option value="爱情">爱情</option>
+                                    <option value="悬疑">悬疑</option>
+                                    <option value="恐怖">恐怖</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="editMovieStatus" class="form-label">发布状态</label>
+                                <select class="form-select" id="editMovieStatus" required>
+                                    <option value="已发布" selected>已发布</option>
+                                    <option value="未发布">未发布</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="editMovieDirector" class="form-label">导演</label>
+                                <input type="text" class="form-control" id="editMovieDirector" value="郭帆" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editMovieActors" class="form-label">主演</label>
+                                <input type="text" class="form-control" id="editMovieActors" value="吴京、刘德华" required>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label for="editMovieReleaseDate" class="form-label">上映时间</label>
+                                <input type="date" class="form-control" id="editMovieReleaseDate" value="2023-01-22" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="editMovieDuration" class="form-label">片长(分钟)</label>
+                                <input type="number" class="form-control" id="editMovieDuration" value="173" min="1" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="editMovieRating" class="form-label">评分</label>
+                                <input type="number" class="form-control" id="editMovieRating" value="9.2" step="0.1" min="0" max="10" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="editMovieLanguage" class="form-label">语言</label>
+                                <select class="form-select" id="editMovieLanguage" required>
+                                    <option value="中文" selected>中文</option>
+                                    <option value="英文">英文</option>
+                                    <option value="日文">日文</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </div>
+                            
+                            <!-- 电影海报 -->
+                            <div class="col-12">
+                                <label for="editMoviePoster" class="form-label">电影海报</label>
+                                <div class="d-flex gap-3 align-items-center">
+                                    <img src="image/流浪地球2.jpg" alt="当前海报" style="width: 100px; height: 140px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);">
+                                    <input class="form-control flex-grow-1" type="file" id="editMoviePoster" accept="image/*">
+                                </div>
+                            </div>
+                            
+                            <!-- 电影简介 -->
+                            <div class="col-12">
+                                <label for="editMovieDescription" class="form-label">电影简介</label>
+                                <textarea class="form-control" id="editMovieDescription" rows="4" required>太阳即将膨胀为红巨星，人类面临灭绝危机。为了生存，人类提出了“流浪地球”计划，在地球表面建造10000台巨大的发动机，将地球推离太阳系，前往4.2光年外的半人马座比邻星。</textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="border-color: var(--border-color);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">保存修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 删除电影模态框 -->
+    <div class="modal fade" id="deleteMovieModal" tabindex="-1" aria-labelledby="deleteMovieModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: var(--bg-card); border-color: var(--border-color); color: var(--text-primary);">
+                <div class="modal-header" style="background-color: rgba(255, 71, 87, 0.15); border-color: var(--border-color);">
+                    <h5 class="modal-title" id="deleteMovieModalLabel">确认删除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <p>您确定要删除电影《流浪地球2》吗？此操作不可恢复。</p>
+                </div>
+                <div class="modal-footer" style="border-color: var(--border-color);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger">确认删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="admin-footer">
+        <div class="container-fluid">
+            <div class="text-center">
+                <p>&copy; 2024 神影视频. 作者: 叶炫</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dist/jquery-3.6.0.min.js"></script>
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 侧边栏切换
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+        
+        // 全选/取消全选
+        document.getElementById('selectAll').addEventListener('change', function() {
+            var checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = this.checked;
+            }.bind(this));
+        });
+    </script>
+</body>
+</html>

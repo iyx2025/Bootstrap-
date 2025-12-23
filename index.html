@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神影视频 - 高品质电影、电视剧在线观看</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/font-awesome-4.7.0/css/font-awesome.min.css">
+    <style>
+        /* CSS变量定义 - 深色主题配色方案 */
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary-color: #8b5cf6;
+            --bg-dark: #0f1117;
+            --bg-medium: #16181d;
+            --bg-light: #1e2029;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a1a1aa;
+            --border-color: #2d2d3a;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* 全局样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-medium);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-dark);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background-color: rgba(15, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-brand i {
+            color: var(--primary-color);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text-primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+        }
+
+        .search-input {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 30px;
+            padding: 0.5rem 2.5rem 0.5rem 1.5rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* 按钮样式 */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 30px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 30px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* 轮播图样式 */
+        .hero-carousel {
+            position: relative;
+            height: 90vh;
+            overflow: hidden;
+        }
+
+        .carousel-item {
+            height: 100%;
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(15, 17, 23, 0.8), rgba(15, 17, 23, 0.4), rgba(15, 17, 23, 0.9));
+        }
+
+        .carousel-content {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            padding-left: 5%;
+            max-width: 600px;
+        }
+
+        .carousel-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .carousel-badges {
+            margin-bottom: 1.5rem;
+        }
+
+        .carousel-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .carousel-controls .carousel-control-prev,
+        .carousel-controls .carousel-control-next {
+            width: 5%;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-controls .carousel-control-prev:hover,
+        .carousel-controls .carousel-control-next:hover {
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* 内容区块标题 */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background-color: var(--border-color);
+            margin-left: 1rem;
+        }
+
+        /* 电影卡片样式 */
+        .movie-card {
+            background-color: var(--bg-medium);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+            border-color: var(--primary-color);
+        }
+
+        .movie-img-container {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 2/3;
+        }
+
+        .movie-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .movie-card:hover .movie-img {
+            transform: scale(1.05);
+        }
+
+        .movie-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(15, 17, 23, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .movie-card:hover .movie-overlay {
+            opacity: 1;
+        }
+
+        .play-button {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .play-button:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .movie-content {
+            padding: 1rem;
+        }
+
+        .movie-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .movie-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .movie-rating {
+            color: #f59e0b;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        /* 内容区块 */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .bg-alternate {
+            background-color: var(--bg-medium);
+        }
+
+        /* 特色内容区块 */
+        .featured-content {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 400px;
+        }
+
+        .featured-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(15, 17, 23, 0.9), rgba(15, 17, 23, 0.4));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .featured-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .featured-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            max-height: 100px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        /* 无限滚动卡片容器 */
+        .scrollable-container {
+            position: relative;
+        }
+
+        .scrollable-content {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            z-index: 10;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .scroll-button:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .scroll-button-left {
+            left: -20px;
+            display: none;
+        }
+
+        .scroll-button-right {
+            right: -20px;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background-color: var(--bg-medium);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-brand i {
+            color: var(--primary-color);
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-light);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(3px);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-input {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .newsletter-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .carousel-title {
+                font-size: 2.5rem;
+            }
+            
+            .featured-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .search-container {
+                margin: 1rem 0;
+                max-width: 100%;
+            }
+            
+            .navbar-nav {
+                flex-direction: column;
+                padding: 1rem 0;
+            }
+            
+            .nav-link {
+                padding: 0.5rem 0;
+            }
+            
+            .carousel-title {
+                font-size: 2rem;
+            }
+            
+            .hero-carousel {
+                height: 70vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-content {
+                max-width: 100%;
+                padding: 2rem;
+            }
+            
+            .carousel-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-carousel {
+                height: 60vh;
+            }
+            
+            .scroll-button {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .carousel-title {
+                font-size: 1.5rem;
+            }
+            
+            .carousel-subtitle {
+                font-size: 1rem;
+            }
+            
+            .play-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            
+            .hero-carousel {
+                height: 50vh;
+            }
+            
+            .content-section {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid section-container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fa fa-film"></i> 神影视频
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索电影、电视剧...">
+                    <button class="search-button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#movies">电影</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tvshows">电视剧</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#variety">综艺</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#animation">动漫</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2">
+                        <button class="btn-outline" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <i class="fa fa-user-plus"></i> 注册
+                        </button>
+                        <a href="login.html" class="btn btn-primary">
+                            <i class="fa fa-sign-in"></i> 登录
+                        </a>
+                    </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 注册模态框 -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: var(--bg-medium); border: none; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+                <div class="modal-header bg-primary text-white" style="border-radius: 10px 10px 0 0;">
+                    <h5 class="modal-title" id="registerModalLabel"><i class="fa fa-user-plus"></i> 用户注册</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5">
+                    <form id="registerForm" class="needs-validation" novalidate>
+                        <!-- 社交登录按钮 -->
+                        <div class="social-login mb-4">
+                            <button type="button" class="btn social-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; border: 1px solid var(--border-color); background-color: var(--bg-light); color: var(--text-primary); transition: all 0.3s ease; border-radius: 5px; padding: 0.5rem 1rem;">
+                                <i class="fa fa-weixin"></i> 微信注册
+                            </button>
+                            <button type="button" class="btn social-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; border: 1px solid var(--border-color); background-color: var(--bg-light); color: var(--text-primary); transition: all 0.3s ease; border-radius: 5px; padding: 0.5rem 1rem;">
+                                <i class="fa fa-qq"></i> QQ注册
+                            </button>
+                        </div>
+                        
+                        <div class="text-center my-4">
+                            <span class="text-secondary">或使用邮箱注册</span>
+                        </div>
+                        
+                        <!-- 用户名 -->
+                        <div class="mb-3 position-relative">
+                            <label for="username" class="form-label" style="color: var(--text-primary);">用户名</label>
+                            <div class="input-group">
+                                <span class="input-group-text" style="background-color: var(--bg-medium); border-color: var(--border-color); color: var(--text-secondary);"><i class="fa fa-user"></i></span>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required minlength="3" maxlength="20" style="background-color: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 0 5px 5px 0;">
+                                <span class="input-group-text validation-icon" style="background-color: var(--bg-light); border: 1px solid var(--border-color); border-left: none; border-radius: 0 5px 5px 0; display: none;"></span>
+                            </div>
+                            <div class="invalid-feedback">
+                                用户名长度必须在3-20个字符之间
+                            </div>
+                            <div class="valid-feedback" style="display: none;">
+                                用户名可用
+                            </div>
+                        </div>
+                        
+                        <!-- 邮箱 -->
+                        <div class="mb-3 position-relative">
+                            <label for="email" class="form-label" style="color: var(--text-primary);">邮箱地址</label>
+                            <div class="input-group">
+                                <span class="input-group-text" style="background-color: var(--bg-medium); border-color: var(--border-color); color: var(--text-secondary);"><i class="fa fa-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱地址" required style="background-color: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 0 5px 5px 0;">
+                                <span class="input-group-text validation-icon" style="background-color: var(--bg-light); border: 1px solid var(--border-color); border-left: none; border-radius: 0 5px 5px 0; display: none;"></span>
+                            </div>
+                            <div class="invalid-feedback">
+                                请输入有效的邮箱地址
+                            </div>
+                            <div class="valid-feedback" style="display: none;">
+                                邮箱地址有效
+                            </div>
+                        </div>
+                        
+                        <!-- 密码 -->
+                        <div class="mb-3 position-relative">
+                            <label for="password" class="form-label" style="color: var(--text-primary);">密码</label>
+                            <div class="input-group">
+                                <span class="input-group-text" style="background-color: var(--bg-medium); border-color: var(--border-color); color: var(--text-secondary);"><i class="fa fa-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required minlength="6" style="background-color: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 0;">
+                                <button type="button" id="togglePassword" class="btn btn-outline-secondary" style="background-color: var(--bg-medium); border: 1px solid var(--border-color); border-left: none; border-right: none; color: var(--text-secondary);">
+                                    <i class="fa fa-eye-slash"></i>
+                                </button>
+                                <span class="input-group-text validation-icon" style="background-color: var(--bg-light); border: 1px solid var(--border-color); border-left: none; border-radius: 0 5px 5px 0; display: none;"></span>
+                            </div>
+                            <div class="invalid-feedback">
+                                密码长度不能少于6个字符
+                            </div>
+                            <div class="valid-feedback" style="display: none;">
+                                密码强度良好
+                            </div>
+                            <!-- 密码强度指示器 -->
+                            <div class="password-strength strength-0" id="passwordStrengthIndicator" style="display: flex; height: 5px; margin-top: 8px; margin-bottom: 8px; border-radius: 5px; overflow: hidden;">
+                                <div class="strength-bar" style="flex: 1; transition: all 0.3s ease;"></div>
+                                <div class="strength-bar" style="flex: 1; transition: all 0.3s ease;"></div>
+                                <div class="strength-bar" style="flex: 1; transition: all 0.3s ease;"></div>
+                            </div>
+                            <div class="strength-text" id="passwordStrengthText" style="font-size: 0.85rem; margin-top: 5px; color: var(--text-secondary);">密码强度: 弱</div>
+                            <div class="form-text" style="color: var(--text-secondary);">密码应包含字母、数字和特殊字符，长度不少于6位</div>
+                        </div>
+                        
+                        <!-- 确认密码 -->
+                        <div class="mb-3 position-relative">
+                            <label for="confirmPassword" class="form-label" style="color: var(--text-primary);">确认密码</label>
+                            <div class="input-group">
+                                <span class="input-group-text" style="background-color: var(--bg-medium); border-color: var(--border-color); color: var(--text-secondary);"><i class="fa fa-lock"></i></span>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="请再次输入密码" required style="background-color: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 0 5px 5px 0;">
+                                <span class="input-group-text validation-icon" style="background-color: var(--bg-light); border: 1px solid var(--border-color); border-left: none; border-radius: 0 5px 5px 0; display: none;"></span>
+                            </div>
+                            <div class="invalid-feedback">
+                                两次输入的密码不一致
+                            </div>
+                            <div class="valid-feedback" style="display: none;">
+                                密码匹配
+                            </div>
+                        </div>
+                        
+                        <!-- 验证码 -->
+                        <div class="mb-3 row">
+                            <div class="col-sm-8">
+                                <label for="captcha" class="form-label" style="color: var(--text-primary);">验证码</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background-color: var(--bg-medium); border-color: var(--border-color); color: var(--text-secondary);"><i class="fa fa-shield"></i></span>
+                                    <input type="text" class="form-control" id="captcha" name="captcha" placeholder="请输入验证码" required style="background-color: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 0 5px 5px 0;">
+                                </div>
+                                <div class="invalid-feedback">
+                                    请输入验证码
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label d-block">&nbsp;</label>
+                                <div class="input-group">
+                                    <img src="https://via.placeholder.com/120x40?text=Captcha" alt="验证码" class="img-fluid rounded captcha-img" style="cursor: pointer; transition: transform 0.2s ease; border: 1px solid var(--border-color); border-radius: 5px;">
+                                    <button type="button" id="refreshCaptcha" class="btn btn-outline-secondary ml-2" style="background-color: var(--bg-medium); border: 1px solid var(--border-color); color: var(--text-secondary);">
+                                        <i class="fa fa-refresh"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 同意条款 -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms" required style="background-color: var(--bg-light); border-color: var(--border-color);">
+                            <label class="form-check-label" for="agreeTerms" style="color: var(--text-secondary);">
+                                我已阅读并同意 <a href="#" class="text-primary">《用户协议》</a> 和 <a href="#" class="text-primary">《隐私政策》</a>
+                            </label>
+                            <div class="invalid-feedback">
+                                请同意用户协议和隐私政策
+                            </div>
+                        </div>
+                        
+                        <!-- 表单反馈区域 -->
+                        <div id="formFeedback" class="alert d-none" role="alert" style="margin-top: 1rem; border-radius: 5px;"></div>
+                        
+                        <!-- 注册按钮 -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg" id="registerSubmitBtn" style="background-color: var(--primary-color); border: none; border-radius: 5px; padding: 0.75rem; font-weight: 600; transition: all 0.3s ease;">
+                                <span id="btnText"><i class="fa fa-user-plus"></i> 注册</span>
+                                <span id="btnLoading" class="d-none"><i class="fa fa-spinner fa-spin"></i> 注册中...</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer p-5 pt-0 text-center">
+                    <span class="text-secondary">已有账号？</span>
+                    <a href="#" class="text-primary ms-1">立即登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <main>
+        <!-- 全屏轮播图 -->
+        <section class="hero-carousel carousel slide" data-bs-ride="carousel" id="hero-carousel">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="image/流浪地球2.jpg" class="carousel-img" alt="流浪地球2">
+                    <div class="carousel-content">
+                        <div class="carousel-badges">
+                            <span class="carousel-badge">科幻</span>
+                            <span class="carousel-badge">冒险</span>
+                            <span class="carousel-badge">动作</span>
+                        </div>
+                        <h1 class="carousel-title">流浪地球2</h1>
+                        <p class="carousel-subtitle">太阳即将毁灭，人类在地球表面建造出巨大的推进器，寻找新家园。然而宇宙之路危机四伏，为了拯救地球，流浪地球时代的年轻人再次挺身而出，展开争分夺秒的生死之战。</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn-primary" onclick="window.location.href='the_wandering_earth_2.html'">
+                                <i class="fa fa-play"></i> 立即观看
+                            </button>
+                            <button class="btn-outline">
+                                <i class="fa fa-plus"></i> 加入收藏
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="image/奥本海默.jpg" class="carousel-img" alt="奥本海默">
+                    <div class="carousel-content">
+                        <div class="carousel-badges">
+                            <span class="carousel-badge">传记</span>
+                            <span class="carousel-badge">剧情</span>
+                            <span class="carousel-badge">历史</span>
+                        </div>
+                        <h1 class="carousel-title">奥本海默</h1>
+                        <p class="carousel-subtitle">克里斯托弗·诺兰执导的传记片，讲述了美国物理学家罗伯特·奥本海默的传奇一生，以及他在曼哈顿计划中扮演的关键角色。</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn-primary">
+                                <i class="fa fa-play"></i> 立即观看
+                            </button>
+                            <button class="btn-outline">
+                                <i class="fa fa-plus"></i> 加入收藏
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="image/复联.jpg" class="carousel-img" alt="复仇者联盟">
+                    <div class="carousel-content">
+                        <div class="carousel-badges">
+                            <span class="carousel-badge">动作</span>
+                            <span class="carousel-badge">科幻</span>
+                            <span class="carousel-badge">冒险</span>
+                        </div>
+                        <h1 class="carousel-title">复仇者联盟</h1>
+                        <p class="carousel-subtitle">当灭霸威胁要摧毁整个宇宙时，复仇者联盟必须团结起来，与其他超级英雄一起，阻止这场前所未有的灾难。</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn-primary">
+                                <i class="fa fa-play"></i> 立即观看
+                            </button>
+                            <button class="btn-outline">
+                                <i class="fa fa-plus"></i> 加入收藏
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 热门电影 -->
+        <section id="movies" class="content-section">
+            <div class="section-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="section-title">
+                        <i class="fa fa-film text-primary"></i> 热门电影
+                    </h2>
+                    <a href="#" class="btn-outline btn-sm">查看全部</a>
+                </div>
+                
+                <div class="scrollable-container">
+                    <div class="scrollable-content">
+                        <!-- 电影卡片 1 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px; cursor: pointer;" onclick="window.location.href='the_wandering_earth_2.html'">
+                            <div class="movie-img-container">
+                                <img src="image/流浪地球2.jpg" class="movie-img" alt="流浪地球2">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">流浪地球2</h3>
+                                <div class="movie-meta">
+                                    <span>2023</span>
+                                    <span>•</span>
+                                    <span>科幻</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>9.2</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电影卡片 2 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/奥本海默.jpg" class="movie-img" alt="奥本海默">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">奥本海默</h3>
+                                <div class="movie-meta">
+                                    <span>2023</span>
+                                    <span>•</span>
+                                    <span>传记</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>8.8</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电影卡片 3 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/复联.jpg" class="movie-img" alt="复仇者联盟">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">复仇者联盟</h3>
+                                <div class="movie-meta">
+                                    <span>2019</span>
+                                    <span>•</span>
+                                    <span>动作</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>9.5</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电影卡片 4 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/哪吒.jpg" class="movie-img" alt="哪吒之魔童降世">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">哪吒之魔童降世</h3>
+                                <div class="movie-meta">
+                                    <span>2019</span>
+                                    <span>•</span>
+                                    <span>动画</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>9.0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电影卡片 5 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/01.png" class="movie-img" alt="电影5">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">未知电影</h3>
+                                <div class="movie-meta">
+                                    <span>2023</span>
+                                    <span>•</span>
+                                    <span>剧情</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>8.5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="scroll-button scroll-button-left">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-button scroll-button-right">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门电视剧 -->
+        <section id="tvshows" class="content-section">
+            <div class="section-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="section-title">
+                        <i class="fa fa-television text-primary"></i> 热门电视剧
+                    </h2>
+                    <a href="#" class="btn-outline btn-sm">查看全部</a>
+                </div>
+                
+                <div class="scrollable-container">
+                    <div class="scrollable-content">
+                        <!-- 电视剧卡片 1 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/庆余年2.jpg" class="movie-img" alt="庆余年2">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">庆余年2</h3>
+                                <div class="movie-meta">
+                                    <span>2024</span>
+                                    <span>•</span>
+                                    <span>古装</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>9.1</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电视剧卡片 2 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/狂飙.jpg" class="movie-img" alt="狂飙">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">狂飙</h3>
+                                <div class="movie-meta">
+                                    <span>2023</span>
+                                    <span>•</span>
+                                    <span>犯罪</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电视剧卡片 3 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/风吹半夏.jpg" class="movie-img" alt="风吹半夏">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">风吹半夏</h3>
+                                <div class="movie-meta">
+                                    <span>2022</span>
+                                    <span>•</span>
+                                    <span>都市</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>8.8</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电视剧卡片 4 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/爱.jpg" class="movie-img" alt="爱很美味">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">爱很美味</h3>
+                                <div class="movie-meta">
+                                    <span>2021</span>
+                                    <span>•</span>
+                                    <span>都市</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 电视剧卡片 5 -->
+                        <div class="movie-card" style="min-width: 200px; max-width: 200px;">
+                            <div class="movie-img-container">
+                                <img src="image/02.png" class="movie-img" alt="电视剧5">
+                                <div class="movie-overlay">
+                                    <div class="play-button">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="movie-content">
+                                <h3 class="movie-title">未知剧集</h3>
+                                <div class="movie-meta">
+                                    <span>2023</span>
+                                    <span>•</span>
+                                    <span>悬疑</span>
+                                </div>
+                                <div class="movie-rating">
+                                    <i class="fa fa-star"></i>
+                                    <span>8.4</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="scroll-button scroll-button-left">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-button scroll-button-right">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 编辑精选 -->
+        <section class="content-section bg-alternate">
+            <div class="section-container">
+                <h2 class="section-title">
+                    <i class="fa fa-thumbs-up text-primary"></i> 编辑精选
+                </h2>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="featured-content">
+                            <img src="image/10.jpg" class="featured-img" alt="编辑精选1">
+                            <div class="featured-overlay">
+                                <h3 class="featured-title">科幻大片精选</h3>
+                                <p class="featured-description">探索未知世界，体验震撼视觉效果的科幻巨作合集，带你进入想象的极限。</p>
+                                <button class="btn-primary">
+                                    <i class="fa fa-compass"></i> 探索专题
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="featured-content">
+                            <img src="image/11.jpg" class="featured-img" alt="编辑精选2">
+                            <div class="featured-overlay">
+                                <h3 class="featured-title">经典动作电影</h3>
+                                <p class="featured-description">汇集全球顶级动作明星的代表作，精彩打斗、刺激追逐，让你热血沸腾。</p>
+                                <button class="btn-primary">
+                                    <i class="fa fa-compass"></i> 探索专题
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 最新更新 -->
+        <section id="latest" class="content-section">
+            <div class="section-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="section-title">
+                        <i class="fa fa-clock-o text-primary"></i> 最新更新
+                    </h2>
+                    <a href="#" class="btn-outline btn-sm">查看全部</a>
+                </div>
+                
+                <div class="row">
+                    <!-- 最新更新内容卡片 -->
+                    <div class="col-md-6 mb-4">
+                        <div class="movie-card d-flex" style="max-width: 100%;">
+                            <div class="movie-img-container" style="min-width: 150px; max-width: 150px;">
+                                <img src="image/12.jpg" class="movie-img" alt="最新更新1">
+                            </div>
+                            <div class="movie-content flex-grow-1">
+                                <div class="d-flex justify-content-between">
+                                    <h3 class="movie-title">最新电影标题</h3>
+                                    <span class="movie-rating">
+                                        <i class="fa fa-star"></i>
+                                        <span>9.0</span>
+                                    </span>
+                                </div>
+                                <div class="movie-meta">
+                                    <span>2024</span>
+                                    <span>•</span>
+                                    <span>科幻</span>
+                                    <span>•</span>
+                                    <span>动作</span>
+                                </div>
+                                <p class="text-secondary text-sm mb-3">这部科幻大片讲述了人类与人工智能的未来冲突，视觉特效震撼，剧情扣人心弦。</p>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-primary">更新至：第1集</span>
+                                    <button class="btn-primary btn-sm">
+                                        <i class="fa fa-play"></i> 观看
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="movie-card d-flex" style="max-width: 100%;">
+                            <div class="movie-img-container" style="min-width: 150px; max-width: 150px;">
+                                <img src="image/03.png" class="movie-img" alt="最新更新2">
+                            </div>
+                            <div class="movie-content flex-grow-1">
+                                <div class="d-flex justify-content-between">
+                                    <h3 class="movie-title">最新剧集标题</h3>
+                                    <span class="movie-rating">
+                                        <i class="fa fa-star"></i>
+                                        <span>8.7</span>
+                                    </span>
+                                </div>
+                                <div class="movie-meta">
+                                    <span>2024</span>
+                                    <span>•</span>
+                                    <span>悬疑</span>
+                                    <span>•</span>
+                                    <span>犯罪</span>
+                                </div>
+                                <p class="text-secondary text-sm mb-3">这部悬疑剧以复杂的案件为线索，层层递进，每个细节都可能是破案的关键。</p>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-primary">更新至：第8集</span>
+                                    <button class="btn-primary btn-sm">
+                                        <i class="fa fa-play"></i> 观看
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="row">
+                <div class="col-md-4 mb-5">
+                    <a href="index.html" class="footer-brand">
+                        <i class="fa fa-film"></i> 神影视频
+                    </a>
+                    <p class="footer-description">
+                        神影视频提供最新、最热门的电影、电视剧、综艺、动漫在线观看服务，高品质画质，流畅播放体验。
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="微信">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                        <a href="#" class="social-link" title="微博">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                        <a href="#" class="social-link" title="QQ">
+                            <i class="fa fa-qq"></i>
+                        </a>
+                        <a href="#" class="social-link" title="抖音">
+                            <i class="fa fa-music"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-md-2 mb-5">
+                    <h3 class="footer-title">快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#movies">电影</a></li>
+                        <li><a href="#tvshows">电视剧</a></li>
+                        <li><a href="#">综艺</a></li>
+                        <li><a href="#">动漫</a></li>
+                        <li><a href="#">纪录片</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-2 mb-5">
+                    <h3 class="footer-title">帮助中心</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">用户反馈</a></li>
+                        <li><a href="#">意见建议</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4 mb-5">
+                    <h3 class="footer-title">订阅最新资讯</h3>
+                    <p class="footer-description">
+                        获取最新电影资讯、热门电视剧更新提醒，第一时间了解影视动态。
+                    </p>
+                    <form class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="您的邮箱地址">
+                        <button type="submit" class="newsletter-button">订阅</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 神影视频. 保留所有权利.</p>
+                <p class="mt-2">作者: 叶炫</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dist/jquery-3.6.0.min.js"></script>
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 注册模态框相关交互
+        document.addEventListener('DOMContentLoaded', function() {
+            // 表单验证
+            (function () {
+                'use strict';
+                
+                // 获取表单元素
+                var forms = document.querySelectorAll('.needs-validation');
+                
+                // 遍历表单并添加验证
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            // 验证密码一致性
+                            var password = document.getElementById('password');
+                            var confirmPassword = document.getElementById('confirmPassword');
+                            
+                            if (password.value !== confirmPassword.value) {
+                                confirmPassword.setCustomValidity('两次输入的密码不一致');
+                            } else {
+                                confirmPassword.setCustomValidity('');
+                            }
+                            
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+            })();
+            
+            // 实时验证密码一致性
+            document.getElementById('confirmPassword')?.addEventListener('input', function() {
+                var password = document.getElementById('password');
+                var confirmPassword = this;
+                
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity('两次输入的密码不一致');
+                } else {
+                    confirmPassword.setCustomValidity('');
+                }
+            });
+            
+            // 密码强度检测功能
+            document.getElementById('password')?.addEventListener('input', function() {
+                var password = this.value;
+                var strengthIndicator = document.getElementById('passwordStrengthIndicator');
+                var strengthText = document.getElementById('passwordStrengthText');
+                
+                if (!strengthIndicator || !strengthText) return;
+                
+                // 重置强度指示器
+                strengthIndicator.className = 'password-strength strength-0';
+                
+                // 简单密码强度评估逻辑
+                var strength = 0;
+                var strengthLabels = ['弱', '中', '强'];
+                var strengthColors = ['#dc3545', '#fd7e14', '#28a745'];
+                
+                // 长度检查
+                if (password.length >= 8) strength++;
+                
+                // 包含数字
+                if (password.match(/\d/)) strength++;
+                
+                // 包含字母和特殊字符
+                if (password.match(/[a-zA-Z]/) && password.match(/[^a-zA-Z0-9]/)) strength++;
+                
+                // 更新强度指示器
+                strengthIndicator.className = 'password-strength strength-' + strength;
+                
+                // 更新强度条颜色
+                var bars = strengthIndicator.querySelectorAll('.strength-bar');
+                bars.forEach(function(bar, index) {
+                    if (index < strength) {
+                        bar.style.backgroundColor = strengthColors[strength - 1];
+                    } else {
+                        bar.style.backgroundColor = 'var(--border-color)';
+                    }
+                });
+                
+                // 更新强度文本
+                strengthText.textContent = '密码强度: ' + (strengthLabels[strength] || '弱');
+                strengthText.style.color = strength === 0 ? 'var(--text-secondary)' : strengthColors[strength - 1];
+            });
+            
+            // 表单提交处理
+            document.getElementById('registerForm')?.addEventListener('submit', function(e) {
+                e.preventDefault(); // 阻止表单默认提交
+                
+                // 表单验证通过后模拟提交处理
+                if (this.checkValidity()) {
+                    var submitBtn = this.querySelector('button[type="submit"]');
+                    var originalText = submitBtn.innerHTML;
+                    
+                    // 显示加载状态
+                    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> 注册中...';
+                    submitBtn.disabled = true;
+                    
+                    // 模拟API请求延迟
+                    setTimeout(function() {
+                        // 重置按钮状态
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // 关闭模态框
+                        var registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                        registerModal.hide();
+                        
+                        // 显示成功提示
+                        showNotification('注册成功！欢迎加入神影视频', 'success');
+                        
+                        // 清空表单
+                        document.getElementById('registerForm').reset();
+                        document.getElementById('registerForm').classList.remove('was-validated');
+                        
+                    }, 1500);
+                }
+            });
+            
+            // 社交登录按钮点击效果
+            document.querySelectorAll('.social-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    this.classList.add('btn-primary');
+                    this.classList.remove('social-btn');
+                    
+                    setTimeout(() => {
+                        this.classList.remove('btn-primary');
+                        this.classList.add('social-btn');
+                        showNotification('第三方登录功能即将上线', 'info');
+                    }, 500);
+                });
+            });
+            
+            // 验证码图片交互增强
+            document.querySelector('.captcha-img')?.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            document.querySelector('.captcha-img')?.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
+            });
+            
+            // 显示通知函数
+            function showNotification(message, type = 'info') {
+                // 创建通知元素
+                const notification = document.createElement('div');
+                const typeClasses = {
+                    success: 'bg-success',
+                    error: 'bg-danger',
+                    warning: 'bg-warning',
+                    info: 'bg-primary'
+                };
+                
+                notification.className = `toast ${typeClasses[type] || 'bg-info'} text-white position-fixed top-20 end-3 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 ease-in-out transform translate-x-full`;
+                notification.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}" style="font-size: 1.5rem; margin-right: 10px;"></i>
+                        <div>${message}</div>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // 触发动画显示
+                setTimeout(() => {
+                    notification.classList.remove('translate-x-full');
+                }, 10);
+                
+                // 3秒后自动消失
+                setTimeout(() => {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+            
+            // 模态框动画效果增强
+        const registerModal = document.getElementById('registerModal');
+        if (registerModal) {
+            registerModal.addEventListener('show.bs.modal', function() {
+                this.querySelector('.modal-content').classList.add('animate__animated', 'animate__fadeInDown');
+            });
+            
+            registerModal.addEventListener('hide.bs.modal', function() {
+                this.querySelector('.modal-content').classList.remove('animate__animated', 'animate__fadeInDown');
+                // 重置表单
+                const registerForm = document.getElementById('registerForm');
+                if (registerForm) {
+                    registerForm.reset();
+                    registerForm.classList.remove('was-validated');
+                    resetValidationStatus();
+                }
+            });
+        }
+        
+        // 表单验证增强函数
+        function enhanceFormValidation() {
+            const registerForm = document.getElementById('registerForm');
+            if (!registerForm) return;
+            
+            // 初始化实时验证
+            setupRealTimeValidation();
+            
+            // 表单提交处理
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 验证所有字段
+                let isValid = true;
+                const inputs = this.querySelectorAll('input[required]');
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        isValid = false;
+                        markFieldInvalid(input);
+                    }
+                });
+                
+                // 密码一致性验证
+                const password = document.getElementById('password');
+                const confirmPassword = document.getElementById('confirmPassword');
+                if (password && confirmPassword && password.value !== confirmPassword.value) {
+                    isValid = false;
+                    markFieldInvalid(confirmPassword);
+                    confirmPassword.setCustomValidity('两次输入的密码不一致');
+                    showFormFeedback('两次输入的密码不一致', 'danger');
+                }
+                
+                if (isValid) {
+                    submitRegistrationForm();
+                } else {
+                    showFormFeedback('请检查表单中的错误', 'danger');
+                }
+            });
+        }
+        
+        // 设置实时验证
+        function setupRealTimeValidation() {
+            // 用户名验证
+            const username = document.getElementById('username');
+            if (username) {
+                username.addEventListener('input', function() {
+                    validateField(this);
+                });
+                username.addEventListener('blur', function() {
+                    if (this.value.length >= 3) {
+                        simulateUsernameCheck(this);
+                    }
+                });
+            }
+            
+            // 邮箱验证
+            const email = document.getElementById('email');
+            if (email) {
+                email.addEventListener('input', function() {
+                    validateField(this);
+                });
+            }
+            
+            // 密码验证增强
+            const password = document.getElementById('password');
+            if (password) {
+                password.addEventListener('input', function() {
+                    validateField(this);
+                    updatePasswordStrength(this.value);
+                });
+            }
+            
+            // 确认密码验证
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (confirmPassword) {
+                confirmPassword.addEventListener('input', function() {
+                    const password = document.getElementById('password');
+                    if (password && this.value) {
+                        if (this.value === password.value) {
+                            markFieldValid(this);
+                        } else {
+                            markFieldInvalid(this);
+                        }
+                    }
+                });
+            }
+            
+            // 验证码验证
+            const captcha = document.getElementById('captcha');
+            if (captcha) {
+                captcha.addEventListener('input', function() {
+                    validateField(this);
+                });
+            }
+            
+            // 密码显示/隐藏切换
+            const togglePassword = document.getElementById('togglePassword');
+            if (togglePassword) {
+                togglePassword.addEventListener('click', function() {
+                    const password = document.getElementById('password');
+                    if (password) {
+                        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                        password.setAttribute('type', type);
+                        
+                        // 切换图标
+                        const icon = this.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('fa-eye');
+                            icon.classList.toggle('fa-eye-slash');
+                        }
+                    }
+                });
+            }
+            
+            // 验证码刷新
+            const refreshCaptcha = document.getElementById('refreshCaptcha');
+            const captchaImg = document.querySelector('.captcha-img');
+            if (refreshCaptcha && captchaImg) {
+                refreshCaptcha.addEventListener('click', function() {
+                    refreshCaptchaImage(captchaImg);
+                });
+                captchaImg.addEventListener('click', function() {
+                    refreshCaptchaImage(this);
+                });
+            }
+        }
+        
+        // 验证单个字段
+        function validateField(input) {
+            // 清除之前的验证状态
+            input.classList.remove('is-valid', 'is-invalid');
+            
+            // 检查有效性
+            const isValid = input.checkValidity();
+            
+            // 根据验证结果标记字段
+            if (isValid && input.value.trim() !== '') {
+                markFieldValid(input);
+            } else if (input.value.trim() !== '') {
+                markFieldInvalid(input);
+            }
+            
+            return isValid;
+        }
+        
+        // 标记字段为有效
+        function markFieldValid(input) {
+            input.classList.add('is-valid');
+            input.classList.remove('is-invalid');
+            
+            // 显示验证图标
+            const icon = input.parentElement.querySelector('.validation-icon');
+            if (icon) {
+                icon.innerHTML = '<i class="fa fa-check text-success"></i>';
+                icon.style.display = 'flex';
+            }
+            
+            // 显示有效反馈
+            const validFeedback = input.parentElement.nextElementSibling;
+            if (validFeedback && validFeedback.classList.contains('valid-feedback')) {
+                validFeedback.style.display = 'block';
+            }
+        }
+        
+        // 标记字段为无效
+        function markFieldInvalid(input) {
+            input.classList.add('is-invalid');
+            input.classList.remove('is-valid');
+            
+            // 显示验证图标
+            const icon = input.parentElement.querySelector('.validation-icon');
+            if (icon) {
+                icon.innerHTML = '<i class="fa fa-times text-danger"></i>';
+                icon.style.display = 'flex';
+            }
+        }
+        
+        // 重置验证状态
+        function resetValidationStatus() {
+            const inputs = document.querySelectorAll('#registerForm input');
+            inputs.forEach(input => {
+                input.classList.remove('is-valid', 'is-invalid');
+                input.setCustomValidity('');
+            });
+            
+            const icons = document.querySelectorAll('.validation-icon');
+            icons.forEach(icon => {
+                icon.innerHTML = '';
+                icon.style.display = 'none';
+            });
+            
+            const validFeedbacks = document.querySelectorAll('.valid-feedback');
+            validFeedbacks.forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+            
+            resetPasswordStrength();
+            showFormFeedback('', '');
+        }
+        
+        // 更新密码强度指示器
+        function updatePasswordStrength(password) {
+            const strengthIndicator = document.getElementById('passwordStrengthIndicator');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            if (!strengthIndicator || !strengthText) return;
+            
+            // 重置强度指示器
+            const bars = strengthIndicator.querySelectorAll('.strength-bar');
+            bars.forEach(bar => bar.style.backgroundColor = 'var(--border-color)');
+            
+            let strength = 0;
+            const strengthLevels = [
+                { level: 1, minLength: 6, color: '#dc3545', text: '弱' },
+                { level: 2, minLength: 8, hasNumber: true, hasLetter: true, color: '#fd7e14', text: '中' },
+                { level: 3, minLength: 8, hasNumber: true, hasLetter: true, hasSpecial: true, color: '#28a745', text: '强' }
+            ];
+            
+            // 计算密码强度
+            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
+            if (/\d/.test(password) && /[a-zA-Z]/.test(password)) strength++;
+            if (/[^\w\s]/.test(password)) strength = Math.min(strength + 1, 3);
+            
+            // 更新强度指示器
+            for (let i = 0; i < strength && i < bars.length; i++) {
+                const color = strengthLevels[strength - 1]?.color || '#dc3545';
+                bars[i].style.backgroundColor = color;
+            }
+            
+            // 更新强度文本
+            const level = strengthLevels[strength - 1] || strengthLevels[0];
+            strengthText.textContent = `密码强度: ${level.text}`;
+            strengthText.style.color = level.color;
+        }
+        
+        // 重置密码强度指示器
+        function resetPasswordStrength() {
+            const strengthIndicator = document.getElementById('passwordStrengthIndicator');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            if (strengthIndicator && strengthText) {
+                const bars = strengthIndicator.querySelectorAll('.strength-bar');
+                bars.forEach(bar => bar.style.backgroundColor = 'var(--border-color)');
+                strengthText.textContent = '密码强度: 弱';
+                strengthText.style.color = 'var(--text-secondary)';
+            }
+        }
+        
+        // 模拟用户名检查
+        function simulateUsernameCheck(input) {
+            // 显示加载状态
+            const icon = input.parentElement.querySelector('.validation-icon');
+            if (icon) {
+                icon.innerHTML = '<i class="fa fa-spinner fa-spin text-info"></i>';
+                icon.style.display = 'flex';
+            }
+            
+            // 模拟网络请求延迟
+            setTimeout(() => {
+                // 模拟用户名可用（实际应用中应该调用API）
+                markFieldValid(input);
+            }, 800);
+        }
+        
+        // 刷新验证码图片
+        function refreshCaptchaImage(imgElement) {
+            imgElement.style.opacity = '0.5';
+            setTimeout(() => {
+                imgElement.src = 'https://via.placeholder.com/120x40?text=Captcha&t=' + Math.random();
+                imgElement.style.opacity = '1';
+            }, 300);
+        }
+        
+        // 提交注册表单
+        function submitRegistrationForm() {
+            const submitBtn = document.getElementById('registerSubmitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            
+            if (submitBtn && btnText && btnLoading) {
+                // 禁用按钮和显示加载状态
+                submitBtn.disabled = true;
+                btnText.classList.add('d-none');
+                btnLoading.classList.remove('d-none');
+                
+                // 显示提交中反馈
+                showFormFeedback('正在注册，请稍候...', 'info');
+                
+                // 禁用所有输入字段
+                const inputs = document.querySelectorAll('#registerForm input');
+                inputs.forEach(input => input.disabled = true);
+                
+                // 模拟API请求延迟
+                setTimeout(() => {
+                    // 恢复按钮状态
+                    submitBtn.disabled = false;
+                    btnText.classList.remove('d-none');
+                    btnLoading.classList.add('d-none');
+                    
+                    // 启用输入字段
+                    inputs.forEach(input => input.disabled = false);
+                    
+                    // 显示成功反馈
+                    showFormFeedback('注册成功！欢迎加入神影视频', 'success');
+                    
+                    // 2秒后关闭模态框并显示通知
+                    setTimeout(() => {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                        if (modal) {
+                            modal.hide();
+                            showNotification('注册成功！欢迎加入神影视频', 'success');
+                        }
+                    }, 2000);
+                }, 2000);
+            }
+        }
+        
+        // 显示表单反馈
+        function showFormFeedback(message, type = '') {
+            const feedbackElement = document.getElementById('formFeedback');
+            if (!feedbackElement) return;
+            
+            if (message) {
+                feedbackElement.classList.remove('d-none');
+                feedbackElement.textContent = message;
+                
+                // 设置反馈类型
+                feedbackElement.className = 'alert mb-3';
+                const typeClasses = {
+                    'success': 'alert-success',
+                    'danger': 'alert-danger',
+                    'warning': 'alert-warning',
+                    'info': 'alert-info'
+                };
+                
+                if (typeClasses[type]) {
+                    feedbackElement.classList.add(typeClasses[type]);
+                }
+            } else {
+                feedbackElement.classList.add('d-none');
+            }
+        }
+        
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            // 创建通知容器
+            const notificationContainer = document.getElementById('notificationContainer');
+            if (!notificationContainer) {
+                // 如果不存在，则创建一个通知容器
+                const container = document.createElement('div');
+                container.id = 'notificationContainer';
+                container.style.position = 'fixed';
+                container.style.top = '80px';
+                container.style.right = '20px';
+                container.style.zIndex = '9999';
+                container.style.width = '300px';
+                document.body.appendChild(container);
+            }
+            
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} mb-2 shadow-lg transition-all duration-300 ease-in-out transform translate-y-0 opacity-0`;
+            notification.style.borderRadius = '5px';
+            notification.style.padding = '1rem';
+            notification.style.marginBottom = '0.5rem';
+            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            notification.textContent = message;
+            
+            // 添加关闭按钮
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'close ml-2';
+            closeButton.setAttribute('data-dismiss', 'alert');
+            closeButton.style.float = 'right';
+            closeButton.style.color = 'inherit';
+            closeButton.style.opacity = '0.7';
+            closeButton.style.background = 'none';
+            closeButton.style.border = 'none';
+            closeButton.style.fontSize = '1.2rem';
+            closeButton.style.cursor = 'pointer';
+            closeButton.innerHTML = '&times;';
+            closeButton.onclick = function() {
+                hideNotification(notification);
+            };
+            notification.appendChild(closeButton);
+            
+            // 添加到容器
+            document.getElementById('notificationContainer').appendChild(notification);
+            
+            // 显示动画
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // 自动关闭
+            setTimeout(() => {
+                hideNotification(notification);
+            }, 5000);
+        }
+        
+        // 隐藏通知
+        function hideNotification(notification) {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+        
+        // 初始化表单验证增强
+        enhanceFormValidation();
+        });
+    </script>
+    <script>
+        // 滚动按钮功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainers = document.querySelectorAll('.scrollable-container');
+            
+            scrollContainers.forEach(container => {
+                const content = container.querySelector('.scrollable-content');
+                const btnLeft = container.querySelector('.scroll-button-left');
+                const btnRight = container.querySelector('.scroll-button-right');
+                
+                // 检查是否需要显示左侧按钮
+                function checkButtons() {
+                    if (content.scrollLeft > 50) {
+                        btnLeft.style.display = 'flex';
+                    } else {
+                        btnLeft.style.display = 'none';
+                    }
+                }
+                
+                // 初始化检查
+                checkButtons();
+                
+                // 滚动事件监听
+                content.addEventListener('scroll', checkButtons);
+                
+                // 左侧按钮点击事件
+                btnLeft.addEventListener('click', function() {
+                    content.scrollBy({ left: -300, behavior: 'smooth' });
+                });
+                
+                // 右侧按钮点击事件
+                btnRight.addEventListener('click', function() {
+                    content.scrollBy({ left: 300, behavior: 'smooth' });
+                });
+            });
+            
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '0.5rem 0';
+                    navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+                } else {
+                    navbar.style.padding = '0.8rem 0';
+                    navbar.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

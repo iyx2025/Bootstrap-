@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流浪地球2 - 电影详情</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/font-awesome-4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background-color: #141414;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .movie-header {
+            position: relative;
+            height: 70vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('image/流浪地球2.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+        }
+        
+        .movie-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(20, 20, 20, 1) 20%, rgba(20, 20, 20, 0.8) 40%, rgba(20, 20, 20, 0) 100%);
+        }
+        
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+            z-index: 100;
+            padding: 1rem 2rem;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .movie-content {
+            position: relative;
+            z-index: 10;
+            padding: 0 2rem;
+            max-width: 800px;
+        }
+        
+        .movie-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .movie-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: #cccccc;
+        }
+        
+        .movie-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #f5c518;
+        }
+        
+        .movie-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+        
+        .btn-primary {
+            background-color: #ff4d4d;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e63946;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        
+        .section-container {
+            padding: 2rem;
+        }
+        
+        .movie-stats {
+            background-color: #1e1e1e;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .movie-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-item {
+            background-color: #1e1e1e;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #cccccc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            color: #ffffff;
+        }
+        
+        .trailer-section {
+            background-color: #1a1a1a;
+            padding: 2rem 0;
+        }
+        
+        .trailer-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .trailer-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .cast-section {
+            padding: 2rem 0;
+        }
+        
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .cast-card {
+            text-align: center;
+        }
+        
+        .cast-img {
+            width: 100%;
+            height: 225px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cast-name {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .cast-role {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+        
+        .related-movies {
+            background-color: #1a1a1a;
+            padding: 2rem 0;
+        }
+        
+        .movie-card {
+            background-color: #1e1e1e;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .movie-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-meta {
+            font-size: 0.8rem;
+            color: #cccccc;
+        }
+        
+        footer {
+            background-color: #111111;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-link {
+            color: #ffffff;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: #ff4d4d;
+        }
+        
+        @media (max-width: 768px) {
+            .movie-header {
+                height: 50vh;
+            }
+            
+            .movie-title {
+                font-size: 2rem;
+            }
+            
+            .movie-content {
+                padding: 0 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fa fa-film"></i> 神影视频
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">电影</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">电视剧</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 电影详情区域 -->
+    <header class="movie-header">
+        <div class="movie-overlay"></div>
+        <div class="movie-content">
+            <h1 class="movie-title">流浪地球2</h1>
+            <div class="movie-meta">
+                <span>2023</span>
+                <span>•</span>
+                <span>科幻</span>
+                <span>•</span>
+                <span>173分钟</span>
+            </div>
+            <div class="movie-rating">
+                <i class="fa fa-star"></i>
+                <span>9.2</span>
+                <span>(428,569人评价)</span>
+            </div>
+            <p class="movie-description">在太阳即将毁灭的背景下，人类在地球表面建造出巨大的推进器，寻找新家园。然而宇宙之路危机四伏，为了拯救地球，流浪地球时代的年轻人再次挺身而出，展开争分夺秒的生死之战。</p>
+            <div class="d-flex gap-2">
+                <button class="btn-primary" onclick="window.location.href='#'">
+                    <i class="fa fa-play"></i> 立即播放
+                </button>
+                <button class="btn-outline">
+                    <i class="fa fa-plus"></i> 加入收藏
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 电影统计数据 -->
+    <section class="section-container">
+        <div class="movie-stats">
+            <h2 class="section-title">电影数据</h2>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-label">累计票房</div>
+                    <div class="stat-value">40.25亿</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">上映时间</div>
+                    <div class="stat-value">2023-01-22</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">评分人数</div>
+                    <div class="stat-value">428,569</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">想看人数</div>
+                    <div class="stat-value">567,892</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 电影基本信息 -->
+    <section class="section-container">
+        <h2 class="section-title">基本信息</h2>
+        <div class="movie-info">
+            <div class="info-item">
+                <div class="info-label">导演</div>
+                <div class="info-value">郭帆</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">编剧</div>
+                <div class="info-value">郭帆、龚格尔、杨治学、叶濡畅</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">主演</div>
+                <div class="info-value">吴京、刘德华、李雪健、沙溢、宁理</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">类型</div>
+                <div class="info-value">科幻、冒险、灾难</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">制片国家/地区</div>
+                <div class="info-value">中国大陆</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">语言</div>
+                <div class="info-value">汉语普通话、英语、俄语</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 剧情简介 -->
+    <section class="section-container bg-alternate" style="background-color: #1a1a1a;">
+        <h2 class="section-title">剧情简介</h2>
+        <p class="movie-description">太阳即将膨胀为红巨星，人类在地球表面建造出巨大的推进器，寻找新家园。然而宇宙之路危机四伏，为了拯救地球，流浪地球时代的年轻人再次挺身而出，展开争分夺秒的生死之战。
+        
+        故事背景设定在《流浪地球》之前，讲述了危机刚刚降临、世界陷入恐慌之际，人类团结起来对抗灾难的过程。影片通过刘培强、图恒宇等人物的视角，展现了人类面对危机时的勇气与智慧，以及亲情、友情、家国情怀等多重情感元素。
+        
+        在这场关乎人类存亡的战斗中，每个人都在为自己心中的信念而战，为了给地球和人类争取一线生机，他们愿意付出一切代价，包括自己的生命。</p>
+    </section>
+
+    <!-- 预告片 -->
+    <section class="trailer-section">
+        <div class="section-container">
+            <h2 class="section-title">预告片</h2>
+            <div class="trailer-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/qdN5E8Q83hY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- 演职人员 -->
+    <section class="cast-section">
+        <div class="section-container">
+            <h2 class="section-title">演职人员</h2>
+            <div class="cast-grid">
+                <div class="cast-card">
+                    <img src="image/吴京.jpg" class="cast-img" alt="吴京" onerror="this.onerror=null;this.src='https://via.placeholder.com/200x300?text=吴京';">
+                    <h3 class="cast-name">吴京</h3>
+                    <p class="cast-role">饰 刘培强</p>
+                </div>
+                <div class="cast-card">
+                    <img src="image/刘德华.jpg" class="cast-img" alt="刘德华" onerror="this.onerror=null;this.src='https://via.placeholder.com/200x300?text=刘德华';">
+                    <h3 class="cast-name">刘德华</h3>
+                    <p class="cast-role">饰 图恒宇</p>
+                </div>
+                <div class="cast-card">
+                    <img src="image/李雪健.jpg" class="cast-img" alt="李雪健" onerror="this.onerror=null;this.src='https://via.placeholder.com/200x300?text=李雪健';">
+                    <h3 class="cast-name">李雪健</h3>
+                    <p class="cast-role">饰 周喆直</p>
+                </div>
+                <div class="cast-card">
+                    <img src="image/沙溢.jpg" class="cast-img" alt="沙溢" onerror="this.onerror=null;this.src='https://via.placeholder.com/200x300?text=沙溢';">
+                    <h3 class="cast-name">沙溢</h3>
+                    <p class="cast-role">饰 张鹏</p>
+                </div>
+                <div class="cast-card">
+                    <img src="image/宁理.jpg" class="cast-img" alt="宁理" onerror="this.onerror=null;this.src='https://via.placeholder.com/200x300?text=宁理';">
+                    <h3 class="cast-name">宁理</h3>
+                    <p class="cast-role">饰 马兆</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 相关推荐 -->
+    <section class="related-movies">
+        <div class="section-container">
+            <h2 class="section-title">相关推荐</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="movie-card">
+                        <img src="image/流浪地球1.jpg" class="movie-img" alt="流浪地球1" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=流浪地球1';">
+                        <div class="card-content">
+                            <h3 class="card-title">流浪地球1</h3>
+                            <div class="card-meta">2019 • 科幻 • 125分钟</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="movie-card">
+                        <img src="image/复联.jpg" class="movie-img" alt="复仇者联盟4" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=复仇者联盟4';">
+                        <div class="card-content">
+                            <h3 class="card-title">复仇者联盟4</h3>
+                            <div class="card-meta">2019 • 科幻 • 181分钟</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="movie-card">
+                        <img src="image/奥本海默.jpg" class="movie-img" alt="奥本海默" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=奥本海默';">
+                        <div class="card-content">
+                            <h3 class="card-title">奥本海默</h3>
+                            <div class="card-meta">2023 • 剧情 • 180分钟</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="movie-card">
+                        <img src="image/哪吒.jpg" class="movie-img" alt="哪吒之魔童降世" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x450?text=哪吒之魔童降世';">
+                        <div class="card-content">
+                            <h3 class="card-title">哪吒之魔童降世</h3>
+                            <div class="card-meta">2019 • 动画 • 110分钟</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="section-container">
+            <div class="footer-content">
+                <a href="index.html" class="navbar-brand">神影视频</a>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fa fa-weixin"></i></a>
+                    <a href="#" class="social-link"><i class="fa fa-weibo"></i></a>
+                    <a href="#" class="social-link"><i class="fa fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fa fa-twitter"></i></a>
+                </div>
+                <p>© 2023 神影视频. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 滚动时改变导航栏样式
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(0, 0, 0, 0.9)';
+                navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

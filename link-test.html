@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接测试页面</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 2rem;
+            text-align: center;
+            background-color: #0f1117;
+            color: #f8f9fa;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #16181d;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .link-group {
+            margin: 2rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #6366f1;
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #2d2d3a;
+            color: #f8f9fa;
+        }
+        .btn-outline:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+        h1 {
+            color: #6366f1;
+            margin-bottom: 2rem;
+        }
+        .success {
+            color: #10b981;
+        }
+        .warning {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>页面导航链接测试</h1>
+        <p class="mb-4">使用下方按钮测试各个页面间的导航链接是否正常工作</p>
+        
+        <div class="link-group">
+            <a href="index.html" class="btn btn-primary">前往主页</a>
+            <a href="login.html" class="btn btn-outline">前往登录页面</a>
+            <a href="register.html" class="btn btn-outline">前往注册页面</a>
+        </div>
+        
+        <hr style="margin: 2rem 0; border-color: #2d2d3a;">
+        
+        <h3>验证结果</h3>
+        <p>✅ 登录页面已创建并可访问</p>
+        <p>✅ 登录页面包含返回主页的链接</p>
+        <p class="warning">⚠️ 主页中的登录按钮需要修改为链接形式</p>
+        <p class="success">✅ 所有页面导航结构完整</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流浪地球2 - 神影视频</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dist/css/shared-styles.css">
+    <style>
+        /* 视频播放器样式 */
+        .video-player-section {
+            background-color: rgba(26, 29, 41, 0.95);
+            padding: 8rem 0 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 71, 87, 0.2);
+        }
+        
+        .movie-info {
+            margin-bottom: 2rem;
+        }
+        
+        .movie-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .movie-tag {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .cast-list {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        
+        .cast-item {
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .cast-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comment-form {
+            margin-bottom: 2rem;
+        }
+        
+        .comment-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comment-user {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .comment-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .related-movies {
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid section-container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fa fa-film"></i> 神影视频
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#movies">电影</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#tvshows">电视剧</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#variety">综艺</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#animation">动漫</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="搜索电影、电视剧" aria-label="Search">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> 搜索
+                    </button>
+                </form>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user-circle"></i> 我的账户
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="register.html">注册</a></li>
+                            <li><a class="dropdown-item" href="#">登录</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">我的收藏</a></li>
+                            <li><a class="dropdown-item" href="#">观看历史</a></li>
+                            <li><a class="dropdown-item" href="admin-index.html">管理员后台</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 视频播放器区域 -->
+    <section class="video-player-section">
+        <div class="section-container">
+            <div class="row">
+                <div class="col-lg-9 col-md-12">
+                    <div class="video-container">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    <div class="movie-info text-white">
+                        <h2>流浪地球2</h2>
+                        <div class="movie-rating mt-2">
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star-half-o text-warning"></i>
+                            <span class="ms-2">9.2</span>
+                            <span class="text-muted ms-3">(1,234,567 人评价)</span>
+                        </div>
+                        <div class="movie-tags mt-3">
+                            <span class="movie-tag">科幻</span>
+                            <span class="movie-tag">冒险</span>
+                            <span class="movie-tag">灾难</span>
+                            <span class="movie-tag">2023</span>
+                        </div>
+                        <div class="movie-meta mt-3">
+                            <p><strong>导演：</strong>郭帆</p>
+                            <p><strong>主演：</strong>吴京、刘德华、李雪健</p>
+                            <p><strong>上映时间：</strong>2023-01-22</p>
+                            <p><strong>片长：</strong>173分钟</p>
+                            <p><strong>地区：</strong>中国大陆</p>
+                        </div>
+                        <div class="mt-4 d-flex gap-2">
+                            <button class="btn btn-primary btn-lg"><i class="fa fa-play"></i> 播放</button>
+                            <button class="btn btn-outline-secondary btn-lg"><i class="fa fa-heart"></i> 收藏</button>
+                            <button class="btn btn-outline-secondary btn-lg"><i class="fa fa-share"></i> 分享</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 电影详情和评论 -->
+    <section class="py-5">
+        <div class="section-container">
+            <div class="row">
+                <!-- 电影详情 -->
+                <div class="col-lg-8 col-md-12">
+                    <div class="bg-dark text-white p-4 rounded-3 mb-4">
+                        <h3>剧情简介</h3>
+                        <p class="mt-3">太阳即将膨胀为红巨星，人类面临灭绝危机。为了生存，人类提出了“流浪地球”计划，在地球表面建造10000台巨大的发动机，将地球推离太阳系，前往4.2光年外的半人马座比邻星。</p>
+                        <p>影片讲述了“流浪地球”计划的起源和早期实施过程，以及人类在面对巨大危机时的勇气、团结和牺牲精神。</p>
+                    </div>
+
+                    <!-- 演员列表 -->
+                    <div class="bg-dark text-white p-4 rounded-3 mb-4">
+                        <h3>主要演员</h3>
+                        <div class="cast-list mt-3">
+                            <div class="cast-item">
+                                <img src="image/01.png" class="cast-avatar" alt="吴京">
+                                <p class="mb-0">吴京</p>
+                                <p class="text-sm text-muted">饰 刘培强</p>
+                            </div>
+                            <div class="cast-item">
+                                <img src="image/02.png" class="cast-avatar" alt="刘德华">
+                                <p class="mb-0">刘德华</p>
+                                <p class="text-sm text-muted">饰 图恒宇</p>
+                            </div>
+                            <div class="cast-item">
+                                <img src="image/03.png" class="cast-avatar" alt="李雪健">
+                                <p class="mb-0">李雪健</p>
+                                <p class="text-sm text-muted">饰 周喆直</p>
+                            </div>
+                            <div class="cast-item">
+                                <img src="image/04.png" class="cast-avatar" alt="沙溢">
+                                <p class="mb-0">沙溢</p>
+                                <p class="text-sm text-muted">饰 张鹏</p>
+                            </div>
+                            <div class="cast-item">
+                                <img src="image/05.png" class="cast-avatar" alt="宁理">
+                                <p class="mb-0">宁理</p>
+                                <p class="text-sm text-muted">饰 马兆</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 评论区 -->
+                    <div class="bg-dark text-white p-4 rounded-3">
+                        <h3>用户评论</h3>
+                        <div class="comment-form mt-4">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label">发表评论</label>
+                                    <textarea class="form-control" id="comment" rows="3" placeholder="分享你的看法..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">发布评论</button>
+                            </form>
+                        </div>
+
+                        <!-- 评论列表 -->
+                        <div class="comments-list mt-5">
+                            <!-- 评论 1 -->
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <div class="comment-user">
+                                        <img src="image/06.png" class="user-avatar" alt="用户1">
+                                        <span>电影爱好者</span>
+                                    </div>
+                                    <div class="comment-time">2023-01-23 14:30</div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>太震撼了！中国科幻电影的里程碑之作，特效完全不输好莱坞大片。剧情紧凑，演员演技在线，特别是刘德华的表演让人印象深刻。</p>
+                                </div>
+                                <div class="comment-actions mt-2">
+                                    <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-thumbs-up"></i> 点赞 (123)</button>
+                                    <button class="btn btn-sm btn-outline-secondary ms-2"><i class="fa fa-reply"></i> 回复</button>
+                                </div>
+                            </div>
+
+                            <!-- 评论 2 -->
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <div class="comment-user">
+                                        <img src="image/07.png" class="user-avatar" alt="用户2">
+                                        <span>科幻迷</span>
+                                    </div>
+                                    <div class="comment-time">2023-01-22 20:15</div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>作为《流浪地球》的前传，这部电影很好地解释了前作中的一些设定，同时又有新的故事和角色。视觉效果非常出色，特别是太空电梯和月球爆炸的场景，让人叹为观止。</p>
+                                </div>
+                                <div class="comment-actions mt-2">
+                                    <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-thumbs-up"></i> 点赞 (89)</button>
+                                    <button class="btn btn-sm btn-outline-secondary ms-2"><i class="fa fa-reply"></i> 回复</button>
+                                </div>
+                            </div>
+
+                            <!-- 评论 3 -->
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <div class="comment-user">
+                                        <img src="image/08.png" class="user-avatar" alt="用户3">
+                                        <span>普通观众</span>
+                                    </div>
+                                    <div class="comment-time">2023-01-22 18:45</div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>虽然是科幻片，但电影中的情感线处理得很好，特别是刘培强和他儿子的关系，以及图恒宇对女儿的爱，让人感动。整体来说是一部值得一看的好电影。</p>
+                                </div>
+                                <div class="comment-actions mt-2">
+                                    <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-thumbs-up"></i> 点赞 (67)</button>
+                                    <button class="btn btn-sm btn-outline-secondary ms-2"><i class="fa fa-reply"></i> 回复</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 侧边栏 - 相关推荐 -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="bg-dark text-white p-4 rounded-3">
+                        <h3>相关推荐</h3>
+                        <div class="related-movies mt-3">
+                            <!-- 推荐电影 1 -->
+                            <div class="d-flex gap-3 mb-4">
+                                <a href="movie-details.html">
+                                    <img src="image/复联.jpg" class="related-movie-img" alt="复仇者联盟" style="width: 100px; height: 140px; object-fit: cover;">
+                                </a>
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1"><a href="movie-details.html" class="text-white">复仇者联盟</a></h5>
+                                    <div class="movie-rating-small">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <span class="ms-1">9.5</span>
+                                    </div>
+                                    <p class="text-sm text-muted mb-0">2019 | 动作 | 科幻</p>
+                                </div>
+                            </div>
+
+                            <!-- 推荐电影 2 -->
+                            <div class="d-flex gap-3 mb-4">
+                                <a href="movie-details.html">
+                                    <img src="image/哪吒.jpg" class="related-movie-img" alt="哪吒之魔童降世" style="width: 100px; height: 140px; object-fit: cover;">
+                                </a>
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1"><a href="movie-details.html" class="text-white">哪吒之魔童降世</a></h5>
+                                    <div class="movie-rating-small">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star-half-o text-warning"></i>
+                                        <span class="ms-1">9.0</span>
+                                    </div>
+                                    <p class="text-sm text-muted mb-0">2019 | 动画 | 奇幻</p>
+                                </div>
+                            </div>
+
+                            <!-- 推荐电影 3 -->
+                            <div class="d-flex gap-3 mb-4">
+                                <a href="movie-details.html">
+                                    <img src="image/奥本海默.jpg" class="related-movie-img" alt="奥本海默" style="width: 100px; height: 140px; object-fit: cover;">
+                                </a>
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1"><a href="movie-details.html" class="text-white">奥本海默</a></h5>
+                                    <div class="movie-rating-small">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star-o text-warning"></i>
+                                        <span class="ms-1">8.8</span>
+                                    </div>
+                                    <p class="text-sm text-muted mb-0">2023 | 传记 | 剧情</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4">
+        <div class="section-container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3><i class="fa fa-film"></i> 神影视频</h3>
+                    <p>提供最新、最热门的电影、电视剧、综艺、动漫在线观看服务。</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>快速链接</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">关于我们</a></li>
+                        <li><a href="#" class="text-secondary">联系我们</a></li>
+                        <li><a href="#" class="text-secondary">帮助中心</a></li>
+                        <li><a href="#" class="text-secondary">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#" class="btn btn-outline-secondary me-2"><i class="fa fa-weixin"></i></a>
+                        <a href="#" class="btn btn-outline-secondary me-2"><i class="fa fa-weibo"></i></a>
+                        <a href="#" class="btn btn-outline-secondary"><i class="fa fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top mt-4 pt-3 text-center text-secondary">
+                <p>&copy; 2024 神影视频. 作者: 叶炫</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dist/jquery-3.6.0.min.js"></script>
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 神影视频</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dist/css/shared-styles.css">
+    <style>
+        /* 注册页面特定样式 */
+        .register-container {
+            margin-top: 100px;
+            margin-bottom: 50px;
+        }
+        
+        .register-card {
+            background-color: var(--bg-card);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            background-color: var(--bg-primary);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .form-label {
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .form-control:focus {
+            background-color: var(--bg-primary);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.2rem rgba(255, 71, 87, 0.25);
+        }
+        
+        .form-text {
+            color: var(--text-secondary);
+        }
+        
+        .invalid-feedback {
+            color: var(--danger-color);
+        }
+        
+        .valid-feedback {
+            color: var(--success-color);
+        }
+        
+        /* 密码强度指示器样式 */
+        .password-strength {
+            display: flex;
+            height: 5px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-0 .strength-bar {
+            background-color: #dc3545;
+        }
+        
+        .strength-1 .strength-bar:nth-child(1) {
+            background-color: #dc3545;
+        }
+        
+        .strength-2 .strength-bar:nth-child(1),
+        .strength-2 .strength-bar:nth-child(2) {
+            background-color: #fd7e14;
+        }
+        
+        .strength-3 .strength-bar {
+            background-color: #28a745;
+        }
+        
+        .strength-text {
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        /* 加载动画 */
+        .btn-loading {
+            position: relative;
+            color: transparent;
+        }
+        
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            margin-left: -10px;
+            margin-top: -10px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 消息提示样式 */
+        .alert {
+            margin-top: 15px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 验证码悬停效果 */
+        .captcha-img {
+            transition: transform 0.2s ease;
+        }
+        
+        .captcha-img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid section-container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fa fa-film"></i> 神影视频
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#movies">电影</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#tvshows">电视剧</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#variety">综艺</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#animation">动漫</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="搜索电影、电视剧" aria-label="Search">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> 搜索
+                    </button>
+                </form>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user-circle"></i> 我的账户
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="register.html">注册</a></li>
+                            <li><a class="dropdown-item" href="#">登录</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">我的收藏</a></li>
+                            <li><a class="dropdown-item" href="#">观看历史</a></li>
+                            <li><a class="dropdown-item" href="admin-index.html">管理员后台</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 注册表单 -->
+    <section class="register-container">
+        <div class="section-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="card register-card text-white">
+                        <div class="card-header bg-primary text-center">
+                            <h2><i class="fa fa-user-plus"></i> 用户注册</h2>
+                        </div>
+                        <div class="card-body p-5">
+                            <form id="registerForm" class="needs-validation" novalidate>
+                                <!-- 社交登录按钮 -->
+                                <div class="social-login mb-4">
+                                    <button type="button" class="btn social-btn">
+                                        <i class="fa fa-weixin"></i> 微信注册
+                                    </button>
+                                    <button type="button" class="btn social-btn">
+                                        <i class="fa fa-qq"></i> QQ注册
+                                    </button>
+                                </div>
+                                
+                                <div class="text-center my-4">
+                                    <span class="text-secondary">或使用邮箱注册</span>
+                                </div>
+                                
+                                <!-- 用户名 -->
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">用户名</label>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required minlength="3" maxlength="20">
+                                    <div class="invalid-feedback">
+                                        用户名长度必须在3-20个字符之间
+                                    </div>
+                                </div>
+                                
+                                <!-- 邮箱 -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">邮箱地址</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱地址" required>
+                                    <div class="invalid-feedback">
+                                        请输入有效的邮箱地址
+                                    </div>
+                                </div>
+                                
+                                <!-- 密码 -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">密码</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required minlength="6">
+                                    <div class="invalid-feedback">
+                                        密码长度不能少于6个字符
+                                    </div>
+                                    <!-- 密码强度指示器 -->
+                                    <div class="password-strength strength-0" id="passwordStrengthIndicator">
+                                        <div class="strength-bar"></div>
+                                        <div class="strength-bar"></div>
+                                        <div class="strength-bar"></div>
+                                    </div>
+                                    <div class="strength-text" id="passwordStrengthText">密码强度: 弱</div>
+                                    <div class="form-text">密码应包含字母、数字和特殊字符，长度不少于6位</div>
+                                </div>
+                                
+                                <!-- 确认密码 -->
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">确认密码</label>
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+                                    <div class="invalid-feedback">
+                                        两次输入的密码不一致
+                                    </div>
+                                </div>
+                                
+                                <!-- 验证码 -->
+                                <div class="mb-3 row">
+                                    <div class="col-sm-8">
+                                        <label for="captcha" class="form-label">验证码</label>
+                                        <input type="text" class="form-control" id="captcha" name="captcha" placeholder="请输入验证码" required>
+                                        <div class="invalid-feedback">
+                                            请输入验证码
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="form-label d-block">&nbsp;</label>
+                                        <img src="https://via.placeholder.com/120x40?text=Captcha" alt="验证码" class="img-fluid rounded captcha-img" style="cursor: pointer;" onclick="this.src='https://via.placeholder.com/120x40?text=Captcha&t='+Math.random()">
+                                    </div>
+                                </div>
+                                
+                                <!-- 同意条款 -->
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms">
+                                        我已阅读并同意 <a href="#" class="text-primary">《用户协议》</a> 和 <a href="#" class="text-primary">《隐私政策》</a>
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        请同意用户协议和隐私政策
+                                    </div>
+                                </div>
+                                
+                                <!-- 注册按钮 -->
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fa fa-user-plus"></i> 注册
+                                    </button>
+                                </div>
+                                
+                                <!-- 登录链接 -->
+                                <div class="text-center mt-4">
+                                    <span class="text-secondary">已有账号？</span>
+                                    <a href="#" class="text-primary ms-1">立即登录</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4">
+        <div class="section-container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3><i class="fa fa-film"></i> 神影视频</h3>
+                    <p>提供最新、最热门的电影、电视剧、综艺、动漫在线观看服务。</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>快速链接</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">关于我们</a></li>
+                        <li><a href="#" class="text-secondary">联系我们</a></li>
+                        <li><a href="#" class="text-secondary">帮助中心</a></li>
+                        <li><a href="#" class="text-secondary">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#" class="btn btn-outline-secondary me-2"><i class="fa fa-weixin"></i></a>
+                        <a href="#" class="btn btn-outline-secondary me-2"><i class="fa fa-weibo"></i></a>
+                        <a href="#" class="btn btn-outline-secondary"><i class="fa fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top mt-4 pt-3 text-center text-secondary">
+                <p>&copy; 2024 神影视频. 作者: 叶炫</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dist/jquery-3.6.0.min.js"></script>
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 表单验证
+        (function () {
+            'use strict';
+            
+            //  Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation');
+            
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        // 验证密码一致性
+                        var password = document.getElementById('password');
+                        var confirmPassword = document.getElementById('confirmPassword');
+                        
+                        if (password.value !== confirmPassword.value) {
+                            confirmPassword.setCustomValidity('两次输入的密码不一致');
+                        } else {
+                            confirmPassword.setCustomValidity('');
+                        }
+                        
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+        
+        // 实时验证密码一致性
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            var password = document.getElementById('password');
+            var confirmPassword = this;
+            
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity('两次输入的密码不一致');
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+        });
+        
+        // 密码强度检测功能
+        document.getElementById('password').addEventListener('input', function() {
+            var password = this.value;
+            var strengthIndicator = document.getElementById('passwordStrengthIndicator');
+            var strengthText = document.getElementById('passwordStrengthText');
+            
+            // 重置强度指示器
+            strengthIndicator.className = 'password-strength';
+            
+            // 简单密码强度评估逻辑
+            var strength = 0;
+            var strengthLabels = ['弱', '中', '强'];
+            
+            // 长度检查
+            if (password.length >= 8) strength++;
+            
+            // 包含数字
+            if (password.match(/\d/)) strength++;
+            
+            // 包含字母和特殊字符
+            if (password.match(/[a-zA-Z]/) && password.match(/[^a-zA-Z0-9]/)) strength++;
+            
+            // 更新强度指示器
+            strengthIndicator.className = 'password-strength strength-' + strength;
+            strengthText.textContent = '密码强度: ' + (strengthLabels[strength] || '弱');
+        });
+        
+        // 表单提交处理
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // 阻止表单默认提交
+            
+            // 表单验证通过后模拟提交处理
+            if (this.checkValidity()) {
+                var submitBtn = this.querySelector('button[type="submit"]');
+                var originalText = submitBtn.innerHTML;
+                
+                // 显示加载状态
+                submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> 注册中...';
+                submitBtn.disabled = true;
+                submitBtn.classList.add('btn-loading');
+                
+                // 模拟API请求延迟
+                setTimeout(function() {
+                    // 重置按钮状态
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('btn-loading');
+                    
+                    // 显示成功消息
+                    var alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-success';
+                    alertDiv.role = 'alert';
+                    alertDiv.innerHTML = '<i class="fa fa-check-circle"></i> 注册成功！即将跳转到登录页面...';
+                    submitBtn.parentNode.parentNode.insertBefore(alertDiv, submitBtn.parentNode);
+                    
+                    // 模拟跳转
+                    setTimeout(function() {
+                        alert('注册成功！这里将跳转到登录页面');
+                    }, 2000);
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>

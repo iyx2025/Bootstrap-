@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 - 神影视频</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dist/css/shared-styles.css">
+</head>
+<body>
+    <!-- 管理员后台布局 -->
+    <div class="d-flex">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-index.html" class="sidebar-brand">
+                    <i class="fa fa-film"></i> 神影视频
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">核心功能</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin-index.html">
+                            <i class="fa fa-dashboard"></i> 仪表盘
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-movies.html">
+                            <i class="fa fa-video-camera"></i> 电影管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-users"></i> 用户管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-comments"></i> 评论管理
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-section">系统管理</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-bar-chart"></i> 数据统计
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-cog"></i> 系统设置
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部导航栏 -->
+            <header class="top-navbar">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button class="mobile-nav-toggle" id="sidebarToggle">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <h2 class="navbar-title"><i class="fa fa-dashboard"></i> 管理员后台</h2>
+                    </div>
+                    <div class="navbar-right">
+                        <div class="search-box">
+                            <i class="fa fa-search"></i>
+                            <input type="text" class="search-input" placeholder="搜索...">
+                        </div>
+                        <div class="notification-icon">
+                            <i class="fa fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                        <a href="index.html" class="btn btn-outline-secondary" title="返回网站首页">
+                            <i class="fa fa-home me-1"></i> 首页
+                        </a>
+                        <div class="admin-profile">
+                            <div class="admin-avatar">A</div>
+                            <div class="admin-info">
+                                <div class="admin-name">管理员</div>
+                                <div class="admin-role">超级管理员</div>
+                            </div>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- 页面内容 -->
+            <div class="content">
+                <!-- 快速操作 -->
+                <div class="quick-actions">
+                    <h3 class="quick-actions-title"><i class="fa fa-bolt"></i> 快速操作</h3>
+                    <div class="actions-grid">
+                        <div class="action-card">
+                            <i class="fa fa-plus-circle"></i>
+                            <h4>添加电影</h4>
+                            <p>快速添加新电影</p>
+                        </div>
+                        <div class="action-card">
+                            <i class="fa fa-user-plus"></i>
+                            <h4>添加用户</h4>
+                            <p>创建新用户账号</p>
+                        </div>
+                        <div class="action-card">
+                            <i class="fa fa-bar-chart"></i>
+                            <h4>查看统计</h4>
+                            <p>查看系统数据统计</p>
+                        </div>
+                        <div class="action-card">
+                            <i class="fa fa-cog"></i>
+                            <h4>系统设置</h4>
+                            <p>调整系统配置</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 统计卡片 -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">电影总数</span>
+                            <i class="fa fa-video-camera stat-icon"></i>
+                        </div>
+                        <div class="stat-value">1,234</div>
+                        <div class="stat-change positive">
+                            <i class="fa fa-arrow-up"></i> +12.5%
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <span class="stat-title">注册用户</span>
+                            <i class="fa fa-users stat-icon"></i>
+                        </div>
+                        <div class="stat-value">56,789</div>
+                        <div class="stat-change positive">
+                            <i class="fa fa-arrow-up"></i> +8.3%
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <span class="stat-title">总播放量</span>
+                            <i class="fa fa-eye stat-icon"></i>
+                        </div>
+                        <div class="stat-value">1,234,567</div>
+                        <div class="stat-change positive">
+                            <i class="fa fa-arrow-up"></i> +15.7%
+                        </div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-header">
+                            <span class="stat-title">评论总数</span>
+                            <i class="fa fa-comments stat-icon"></i>
+                        </div>
+                        <div class="stat-value">98,765</div>
+                        <div class="stat-change negative">
+                            <i class="fa fa-arrow-down"></i> -2.1%
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最近更新的电影 -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-clock-o"></i> 最近更新的电影</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">电影海报</th>
+                                        <th scope="col">电影名称</th>
+                                        <th scope="col">类型</th>
+                                        <th scope="col">上映时间</th>
+                                        <th scope="col">状态</th>
+                                        <th scope="col">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td><img src="image/流浪地球2.jpg" alt="流浪地球2" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">流浪地球2</div>
+                                            <div class="movie-year">2023</div>
+                                        </td>
+                                        <td>科幻</td>
+                                        <td>2023-01-22</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <a href="admin-movies.html" class="btn-action" title="编辑"><i class="fa fa-edit"></i></a>
+                                            <button class="btn-action" title="删除"><i class="fa fa-trash"></i></button>
+                                            <button class="btn-action" title="查看"><i class="fa fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td><img src="image/奥本海默.jpg" alt="奥本海默" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">奥本海默</div>
+                                            <div class="movie-year">2023</div>
+                                        </td>
+                                        <td>传记</td>
+                                        <td>2023-07-21</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <a href="admin-movies.html" class="btn-action" title="编辑"><i class="fa fa-edit"></i></a>
+                                            <button class="btn-action" title="删除"><i class="fa fa-trash"></i></button>
+                                            <button class="btn-action" title="查看"><i class="fa fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td><img src="image/复联.jpg" alt="复仇者联盟" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">复仇者联盟</div>
+                                            <div class="movie-year">2019</div>
+                                        </td>
+                                        <td>动作</td>
+                                        <td>2019-04-24</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <a href="admin-movies.html" class="btn-action" title="编辑"><i class="fa fa-edit"></i></a>
+                                            <button class="btn-action" title="删除"><i class="fa fa-trash"></i></button>
+                                            <button class="btn-action" title="查看"><i class="fa fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td><img src="image/哪吒.jpg" alt="哪吒之魔童降世" class="movie-poster-small"></td>
+                                        <td>
+                                            <div class="movie-title">哪吒之魔童降世</div>
+                                            <div class="movie-year">2019</div>
+                                        </td>
+                                        <td>动画</td>
+                                        <td>2019-07-26</td>
+                                        <td><span class="badge badge-success">已发布</span></td>
+                                        <td>
+                                            <a href="admin-movies.html" class="btn-action" title="编辑"><i class="fa fa-edit"></i></a>
+                                            <button class="btn-action" title="删除"><i class="fa fa-trash"></i></button>
+                                            <button class="btn-action" title="查看"><i class="fa fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最近活动 -->
+                <div class="recent-activities">
+                    <h3 class="activities-title"><i class="fa fa-history"></i> 最近活动</h3>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">添加了新电影</div>
+                            <div class="activity-description">管理员添加了新电影《流浪地球2》</div>
+                            <div class="activity-time">2023-12-20 14:30</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fa fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">新用户注册</div>
+                            <div class="activity-description">用户 user123 注册了账号</div>
+                            <div class="activity-time">2023-12-20 13:45</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fa fa-comments"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">新评论</div>
+                            <div class="activity-description">用户 movie_fan 评论了电影《奥本海默》</div>
+                            <div class="activity-time">2023-12-20 12:15</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="admin-footer">
+        <div class="container-fluid">
+            <div class="text-center">
+                <p>&copy; 2024 神影视频. 作者: 叶炫</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dist/jquery-3.6.0.min.js"></script>
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 侧边栏切换
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
